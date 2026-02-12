@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  @apply bg-hacker-black text-white font-mono;
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 0, 0, 0.03) 0px,
+      transparent 1px,
+      transparent 2px,
+      rgba(255, 0, 0, 0.03) 3px
+    );
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-hacker-dark;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-hacker-red;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-hacker-red-dark;
+}
+
+.text-glow {
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.8),
+               0 0 20px rgba(255, 0, 0, 0.6),
+               0 0 30px rgba(255, 0, 0, 0.4);
+}
+
+.btn-hacker {
+  @apply bg-hacker-red text-white px-6 py-2 font-bold uppercase tracking-wider
+         border-2 border-hacker-red transition-all duration-300
+         hover:bg-transparent hover:text-hacker-red hover:shadow-lg hover:shadow-hacker-red/50;
+}
+
+.btn-hacker-outline {
+  @apply bg-transparent text-hacker-red px-6 py-2 font-bold uppercase tracking-wider
+         border-2 border-hacker-red transition-all duration-300
+         hover:bg-hacker-red hover:text-white hover:shadow-lg hover:shadow-hacker-red/50;
+}
+
+.card-hacker {
+  @apply bg-hacker-dark border border-hacker-red/30 p-6 
+         transition-all duration-300 hover:border-hacker-red hover:shadow-lg hover:shadow-hacker-red/20;
+}
+
+.input-hacker {
+  @apply bg-hacker-gray border border-hacker-red/30 text-white px-4 py-2 w-full
+         focus:outline-none focus:border-hacker-red focus:shadow-lg focus:shadow-hacker-red/20
+         placeholder-gray-500;
+}
+
+.scanner-line {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #ff0000, transparent);
+  animation: scan 8s linear infinite;
+  pointer-events: none;
+  z-index: 9999;
+}
