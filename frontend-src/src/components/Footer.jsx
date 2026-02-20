@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const Footer = () => {
   return (
     <footer className="bg-hacker-dark border-t-2 border-hacker-red mt-20">
@@ -18,17 +20,25 @@ const Footer = () => {
               Enlaces
             </h4>
             <ul className="space-y-2 text-gray-400 font-mono text-sm">
-              <li className="hover:text-hacker-red transition-colors cursor-pointer">
-                Sobre Nosotros
+              <li>
+                <Link to="/about" className="hover:text-hacker-red transition-colors cursor-pointer">
+                  Sobre Nosotros
+                </Link>
               </li>
-              <li className="hover:text-hacker-red transition-colors cursor-pointer">
-                Términos y Condiciones
+              <li>
+                <Link to="/terms" className="hover:text-hacker-red transition-colors cursor-pointer">
+                  Términos y Condiciones
+                </Link>
               </li>
-              <li className="hover:text-hacker-red transition-colors cursor-pointer">
-                Política de Privacidad
+              <li>
+                <Link to="/privacy" className="hover:text-hacker-red transition-colors cursor-pointer">
+                  Política de Privacidad
+                </Link>
               </li>
-              <li className="hover:text-hacker-red transition-colors cursor-pointer">
-                Contacto
+              <li>
+                <Link to="/contact" className="hover:text-hacker-red transition-colors cursor-pointer">
+                  Contacto
+                </Link>
               </li>
             </ul>
           </div>
@@ -38,8 +48,24 @@ const Footer = () => {
               Contacto
             </h4>
             <ul className="space-y-2 text-gray-400 font-mono text-sm">
-              <li>Email: support@cxsystems.com</li>
-              <li>Tel: +52 981 123 4567</li>
+              <li>
+                Email:{' '}
+                <a 
+                  href="mailto:support@cxsystems.com" 
+                  className="hover:text-hacker-red transition-colors"
+                >
+                  support@cxsystems.com
+                </a>
+              </li>
+              <li>
+                Tel:{' '}
+                <a 
+                  href="tel:+529811234567" 
+                  className="hover:text-hacker-red transition-colors"
+                >
+                  +52 981 123 4567
+                </a>
+              </li>
               <li>Campeche, México</li>
             </ul>
           </div>

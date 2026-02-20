@@ -45,6 +45,16 @@ class User extends Authenticatable
         return $this->hasMany(Product::class, 'vendor_id');
     }
 
+    public function cartItems()
+    {
+        return $this->hasMany(Cart::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
     // Helpers para verificar roles
     public function isVendor()
     {

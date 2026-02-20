@@ -2,13 +2,18 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
+import { ArrowLeftIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
+  const { user } = useAuth();
 
   useEffect(() => {
     fetchProduct();
@@ -36,6 +41,23 @@ const ProductDetail = () => {
     return null;
   }
 
+  const handleAddToCart = async () => {
+    if (!user) {
+      alert('Debes iniciar sesión para agregar productos al carrito');
+      navigate('/login');
+      return;
+    }
+
+    const result = await addToCart(product.id, quantity);
+    if (result.success) {
+      alert('Producto agregado al carrito');
+      navigate('/cart');
+      return;
+    }
+
+    alert(result.error);
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       
@@ -53,7 +75,7 @@ const ProductDetail = () => {
           <div className="relative h-96 bg-hacker-gray overflow-hidden">
             {product.image ? (
               <img
-                src={`/storage/${product.image}`}
+                src={product.image}
                 alt={product.name}
                 className="w-full h-full object-cover"
               />
@@ -112,6 +134,46 @@ const ProductDetail = () => {
               Vendido por: <span className="text-hacker-red">{product.vendor?.name}</span>
             </p>
           </div>
+
+          {product.stock > 0 && user && user.role_id !== 1 && (
+            <div className="card-hacker mb-6">
+              <div className="flex items-center gap-4 mb-4">
+                <span className="text-white font-mono text-sm uppercase tracking-wider">Cantidad:</span>
+                <div className="flex items-center">
+                  <button
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="bg-hacker-gray text-white w-10 h-10 font-bold text-xl hover:bg-hacker-red transition-colors"
+                  >
+                    -
+                  </button>
+                  <span className="text-white font-bold text-xl w-12 text-center">{quantity}</span>
+                  <button
+                    onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
+                    className="bg-hacker-gray text-white w-10 h-10 font-bold text-xl hover:bg-hacker-red transition-colors"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <button
+                onClick={handleAddToCart}
+                className="w-full btn-hacker flex items-center justify-center gap-2 text-lg py-3"
+              >
+                <ShoppingCartIcon className="h-6 w-6" />
+                AGREGAR AL CARRITO
+              </button>
+            </div>
+          )}
+
+          {!user && (
+            <div className="card-hacker bg-hacker-red/10 border-hacker-red">
+              <p className="text-white font-mono text-center">
+                <a href="/login" className="text-hacker-red hover:underline font-bold">Inicia sesión</a>{' '}
+                para comprar este producto
+              </p>
+            </div>
+          )}
 
         </div>
       </div>

@@ -51,6 +51,16 @@ class Product extends Model
         return $this->belongsTo(User::class, 'vendor_id');
     }
 
+    public function cartItems()
+    {
+        return $this->hasMany(Cart::class);
+    }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
     // Helper: Verificar si hay stock disponible
     public function hasStock($quantity = 1)
     {

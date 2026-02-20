@@ -1,16 +1,29 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import api from '../api/axios';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
+import { MagnifyingGlassIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
 
 const Products = () => {
+  const [searchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [sortBy, setSortBy] = useState('created_at');
+  const { addToCart } = useCart();
+  const { user } = useAuth();
+
+  // Leer categoría de URL al cargar
+  useEffect(() => {
+    const categoryFromUrl = searchParams.get('category');
+    if (categoryFromUrl) {
+      setSelectedCategory(categoryFromUrl);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     fetchCategories();
@@ -42,6 +55,21 @@ const Products = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleAddToCart = async (productId) => {
+    if (!user) {
+      alert('Debes iniciar sesión para agregar productos al carrito');
+      return;
+    }
+
+    const result = await addToCart(productId, 1);
+    if (result.success) {
+      alert('Producto agregado al carrito');
+      return;
+    }
+
+    alert(result.error);
   };
 
   return (
@@ -111,7 +139,7 @@ const Products = () => {
               <div className="relative h-48 bg-hacker-gray mb-4 overflow-hidden">
                 {product.image ? (
                   <img
-                    src={`/storage/${product.image}`}
+                    src={product.image}
                     alt={product.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />
@@ -155,12 +183,24 @@ const Products = () => {
                 </span>
               </div>
 
-              <Link
-                to={`/products/${product.id}`}
-                className="block w-full btn-hacker-outline text-center text-sm py-2"
-              >
-                VER DETALLES
-              </Link>
+              <div className="flex gap-2">
+                <Link
+                  to={`/products/${product.id}`}
+                  className="flex-1 btn-hacker-outline text-center text-sm py-2"
+                >
+                  VER DETALLES
+                </Link>
+
+                {user && user.role_id !== 1 && product.stock > 0 && (
+                  <button
+                    onClick={() => handleAddToCart(product.id)}
+                    className="btn-hacker px-4 py-2"
+                    title="Agregar al carrito"
+                  >
+                    <ShoppingCartIcon className="h-5 w-5" />
+                  </button>
+                )}
+              </div>
             </div>
           ))}
         </div>

@@ -1,9 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { UserIcon } from '@heroicons/react/24/outline';
+import { useCart } from '../context/CartContext';
+import { UserIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
 
 const Navbar = () => {
   const { user, logout, isVendor } = useAuth();
+  const { getCartCount } = useCart();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -37,11 +39,39 @@ const Navbar = () => {
               </Link>
 
               {user && isVendor() && (
-                <Link 
-                  to="/dashboard" 
+                <>
+                  <Link 
+                    to="/dashboard" 
+                    className="text-white hover:text-hacker-red transition-colors font-bold uppercase tracking-wide"
+                  >
+                    Dashboard
+                  </Link>
+                  <Link 
+                    to="/orders-management" 
+                    className="text-white hover:text-hacker-red transition-colors font-bold uppercase tracking-wide"
+                  >
+                    Pedidos
+                  </Link>
+                </>
+              )}
+
+              {user && !isVendor() && (
+                <Link
+                  to="/orders"
                   className="text-white hover:text-hacker-red transition-colors font-bold uppercase tracking-wide"
                 >
-                  Dashboard
+                  Mis Pedidos
+                </Link>
+              )}
+
+              {user && !isVendor() && (
+                <Link to="/cart" className="relative">
+                  <ShoppingCartIcon className="h-6 w-6 text-white hover:text-hacker-red transition-colors" />
+                  {getCartCount() > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-hacker-red text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center animate-pulse">
+                      {getCartCount()}
+                    </span>
+                  )}
                 </Link>
               )}
 

@@ -122,6 +122,24 @@ const Dashboard = () => {
     }
   };
 
+  const getProductImageUrl = (image) => {
+    if (!image) return null;
+
+    if (image.startsWith('http://') || image.startsWith('https://')) {
+      return image;
+    }
+
+    if (image.startsWith('/images/') || image.startsWith('/storage/')) {
+      return image;
+    }
+
+    if (image.startsWith('images/')) {
+      return `/${image}`;
+    }
+
+    return `/storage/${image}`;
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       
@@ -177,7 +195,7 @@ const Dashboard = () => {
                       <div className="w-24 h-24 bg-hacker-gray flex-shrink-0">
                         {product.image ? (
                           <img
-                            src={`/storage/${product.image}`}
+                            src={getProductImageUrl(product.image)}
                             alt={product.name}
                             className="w-full h-full object-cover"
                           />

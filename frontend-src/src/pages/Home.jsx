@@ -1,7 +1,35 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingBagIcon, CpuChipIcon, TvIcon } from '@heroicons/react/24/outline';
+import api from '../api/axios';
 
 const Home = () => {
+  const [productCount, setProductCount] = useState(0);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadProductCount = async () => {
+      try {
+        const response = await api.get('/products?per_page=1');
+        if (isMounted) {
+          setProductCount(response.data?.total || 0);
+        }
+      } catch (error) {
+        console.error('Error al cargar el total de productos:', error);
+      }
+    };
+
+    loadProductCount();
+
+    const intervalId = setInterval(loadProductCount, 30000);
+
+    return () => {
+      isMounted = false;
+      clearInterval(intervalId);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen">
       
@@ -49,7 +77,7 @@ const Home = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             
-            <div className="card-hacker text-center group cursor-pointer">
+            <Link to="/products?category=2" className="card-hacker text-center group cursor-pointer">
               <div className="mb-4 flex justify-center">
                 <CpuChipIcon className="h-16 w-16 text-hacker-red group-hover:animate-pulse" />
               </div>
@@ -59,9 +87,9 @@ const Home = () => {
               <p className="text-gray-400 font-mono text-sm">
                 RAM DDR5, procesadores Intel/AMD, tarjetas gráficas RTX 40 series
               </p>
-            </div>
+            </Link>
 
-            <div className="card-hacker text-center group cursor-pointer">
+            <Link to="/products?category=1" className="card-hacker text-center group cursor-pointer">
               <div className="mb-4 flex justify-center">
                 <ShoppingBagIcon className="h-16 w-16 text-hacker-red group-hover:animate-pulse" />
               </div>
@@ -71,9 +99,9 @@ const Home = () => {
               <p className="text-gray-400 font-mono text-sm">
                 Mouse, teclados mecánicos, audífonos gaming de marcas premium
               </p>
-            </div>
+            </Link>
 
-            <div className="card-hacker text-center group cursor-pointer">
+            <Link to="/products?category=3" className="card-hacker text-center group cursor-pointer">
               <div className="mb-4 flex justify-center">
                 <TvIcon className="h-16 w-16 text-hacker-red group-hover:animate-pulse" />
               </div>
@@ -83,7 +111,7 @@ const Home = () => {
               <p className="text-gray-400 font-mono text-sm">
                 Monitores gaming 144Hz+, OLED, 4K, ultra-wide y curvas
               </p>
-            </div>
+            </Link>
           </div>
         </div>
       </section>
@@ -108,7 +136,7 @@ const Home = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto font-mono text-sm">
             <p className="text-green-500 mb-2">{'> '} System Status: <span className="text-hacker-red animate-pulse">ONLINE</span></p>
-            <p className="text-green-500 mb-2">{'> '} Products Available: <span className="text-white">500+</span></p>
+            <p className="text-green-500 mb-2">{'> '} Products Available: <span className="text-white">{productCount}</span></p>
             <p className="text-green-500 mb-2">{'> '} Delivery Time: <span className="text-white">24-48hrs</span></p>
             <p className="text-green-500">{'> '} Warranty: <span className="text-white">12 months</span></p>
           </div>

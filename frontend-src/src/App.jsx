@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { CartProvider } from './context/CartContext';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -11,9 +12,18 @@ import Register from './pages/Register';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import Dashboard from './pages/Dashboard';
+import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
+import Orders from './pages/Orders';
+import OrderDetail from './pages/OrderDetail';
+import OrdersManagement from './pages/OrdersManagement';
+import About from './pages/About';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
+import Contact from './pages/Contact';
 
-const ProtectedRoute = ({ children, vendorOnly = false }) => {
-  const { user, loading, isVendor } = useAuth();
+const ProtectedRoute = ({ children, vendorOnly = false, clientOnly = false }) => {
+  const { user, loading, isVendor, isClient } = useAuth();
 
   if (loading) {
     return <LoadingSpinner />;
@@ -24,6 +34,10 @@ const ProtectedRoute = ({ children, vendorOnly = false }) => {
   }
 
   if (vendorOnly && !isVendor()) {
+    return <Navigate to="/products" />;
+  }
+
+  if (clientOnly && !isClient()) {
     return <Navigate to="/products" />;
   }
 
@@ -81,6 +95,56 @@ function AppContent() {
               }
             />
 
+            <Route
+              path="/orders-management"
+              element={
+                <ProtectedRoute vendorOnly>
+                  <OrdersManagement />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route path="/about" element={<About />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/contact" element={<Contact />} />
+
+            <Route
+              path="/cart"
+              element={
+                <ProtectedRoute clientOnly>
+                  <Cart />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/checkout"
+              element={
+                <ProtectedRoute clientOnly>
+                  <Checkout />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/orders"
+              element={
+                <ProtectedRoute clientOnly>
+                  <Orders />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/orders/:id"
+              element={
+                <ProtectedRoute clientOnly>
+                  <OrderDetail />
+                </ProtectedRoute>
+              }
+            />
+
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </main>
@@ -93,7 +157,9 @@ function AppContent() {
 function App() {
   return (
     <AuthProvider>
-      <AppContent />
+      <CartProvider>
+        <AppContent />
+      </CartProvider>
     </AuthProvider>
   );
 }
