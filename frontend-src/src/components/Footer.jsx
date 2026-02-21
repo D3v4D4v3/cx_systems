@@ -73,7 +73,7 @@ const Footer = () => {
 
         <div className="border-t border-hacker-red/30 mt-8 pt-6 text-center">
           <p className="text-gray-500 font-mono text-sm">
-            &copy; 2026 CX Systems. Desarrollado por hackers, para gamers.
+            &copy; 2026 CX Systems. Desarrollado por gamers.
           </p>
         </div>
       </div>

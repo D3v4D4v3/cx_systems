@@ -58,7 +58,7 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'message' => 'Login exitoso',
+            'message' => 'Inicio de sesión exitoso',
             'user' => $user->load('role'),
             'token' => $token,
         ]);
@@ -70,7 +70,7 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([
-            'message' => 'Logout exitoso',
+            'message' => 'Cierre de sesión exitoso',
         ]);
     }
 

@@ -6,6 +6,14 @@ import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { ArrowLeftIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
 
+const getProductImageUrl = (image) => {
+  if (!image) return null;
+  if (image.startsWith('http://') || image.startsWith('https://')) return image;
+  if (image.startsWith('/images/') || image.startsWith('/storage/')) return image;
+  if (image.startsWith('images/')) return `/${image}`;
+  return `/storage/${image}`;
+};
+
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -60,7 +68,7 @@ const ProductDetail = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      
+
       <button
         onClick={() => navigate('/products')}
         className="btn-hacker-outline mb-8 flex items-center gap-2"
@@ -70,12 +78,12 @@ const ProductDetail = () => {
       </button>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        
+
         <div className="card-hacker">
           <div className="relative h-96 bg-hacker-gray overflow-hidden">
             {product.image ? (
               <img
-                src={product.image}
+                src={getProductImageUrl(product.image)}
                 alt={product.name}
                 className="w-full h-full object-cover"
               />
@@ -90,7 +98,7 @@ const ProductDetail = () => {
         </div>
 
         <div>
-          
+
           <p className="text-sm text-hacker-red font-mono mb-2 uppercase tracking-wider">
             {product.category?.name}
           </p>

@@ -42,7 +42,7 @@ const Home = () => {
               {'<CX SYSTEMS/>'}
             </h1>
             <p className="text-2xl md:text-3xl font-mono text-white mb-8">
-              LA TIENDA GAMING QUE LOS HACKERS RECOMIENDAN
+              LA TIENDA GAMING QUE TODOS RECOMIENDAN
             </p>
             <p className="text-lg text-gray-400 font-mono mb-12 max-w-2xl mx-auto">
               Hardware de élite, periféricos profesionales y componentes de última generación. 
@@ -135,10 +135,10 @@ const Home = () => {
       <section className="py-12 bg-hacker-black border-t-2 border-hacker-red/30">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto font-mono text-sm">
-            <p className="text-green-500 mb-2">{'> '} System Status: <span className="text-hacker-red animate-pulse">ONLINE</span></p>
-            <p className="text-green-500 mb-2">{'> '} Products Available: <span className="text-white">{productCount}</span></p>
-            <p className="text-green-500 mb-2">{'> '} Delivery Time: <span className="text-white">24-48hrs</span></p>
-            <p className="text-green-500">{'> '} Warranty: <span className="text-white">12 months</span></p>
+            <p className="text-green-500 mb-2">{'> '} Estado del Sistema: <span className="text-hacker-red animate-pulse">EN LÍNEA</span></p>
+            <p className="text-green-500 mb-2">{'> '} Productos Disponibles: <span className="text-white">{productCount}</span></p>
+            <p className="text-green-500 mb-2">{'> '} Tiempo de Entrega: <span className="text-white">24-48hrs</span></p>
+            <p className="text-green-500">{'> '} Garantia: <span className="text-white">12 meses</span></p>
           </div>
         </div>
       </section>

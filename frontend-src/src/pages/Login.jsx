@@ -38,17 +38,17 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12">
       <div className="max-w-md w-full">
-        
+
         <div className="text-center mb-8">
           <h1 className="text-4xl font-cyber font-bold text-hacker-red text-glow mb-2">
-            {'<ACCESS/>'}
+            {'<ACCESO/>'}
           </h1>
           <p className="text-gray-400 font-mono">Inicia sesión en CX Systems</p>
         </div>
 
         <div className="card-hacker">
           <form onSubmit={handleSubmit} className="space-y-6">
-            
+
             {error && (
               <div className="bg-hacker-red/10 border border-hacker-red text-hacker-red px-4 py-3 rounded font-mono text-sm">
                 {error}

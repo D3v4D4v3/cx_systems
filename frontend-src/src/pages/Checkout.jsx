@@ -13,7 +13,7 @@ const Checkout = () => {
   const [error, setError] = useState('');
   const [paymentStep, setPaymentStep] = useState('form'); // 'form' | 'payment' | 'processing'
   const [paymentMethods, setPaymentMethods] = useState([]);
-  
+
   const [formData, setFormData] = useState({
     shipping_address: user?.address || '',
     phone: user?.phone || '',
@@ -110,7 +110,7 @@ const Checkout = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="text-5xl font-cyber font-bold text-hacker-red text-glow mb-4">
-          {'<CHECKOUT/>'}
+          {'<PAGO/>'}
         </h1>
         <p className="text-gray-400 font-mono">
           {paymentStep === 'form' && 'Paso 1: Datos de entrega'}

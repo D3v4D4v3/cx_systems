@@ -16,11 +16,11 @@ const Navbar = () => {
   return (
     <>
       <div className="scanner-line"></div>
-      
+
       <nav className="bg-hacker-dark border-b-2 border-hacker-red shadow-lg shadow-hacker-red/20 sticky top-0 z-50">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            
+
             <Link to="/" className="flex items-center space-x-2">
               <span className="text-2xl font-cyber font-bold text-hacker-red text-glow">
                 {'<CX/>'}
@@ -31,8 +31,8 @@ const Navbar = () => {
             </Link>
 
             <div className="flex items-center space-x-6">
-              <Link 
-                to="/products" 
+              <Link
+                to="/products"
                 className="text-white hover:text-hacker-red transition-colors font-bold uppercase tracking-wide"
               >
                 Productos
@@ -40,14 +40,14 @@ const Navbar = () => {
 
               {user && isVendor() && (
                 <>
-                  <Link 
-                    to="/dashboard" 
+                  <Link
+                    to="/dashboard"
                     className="text-white hover:text-hacker-red transition-colors font-bold uppercase tracking-wide"
                   >
                     Dashboard
                   </Link>
-                  <Link 
-                    to="/orders-management" 
+                  <Link
+                    to="/orders-management"
                     className="text-white hover:text-hacker-red transition-colors font-bold uppercase tracking-wide"
                   >
                     Pedidos
@@ -87,16 +87,16 @@ const Navbar = () => {
                     onClick={handleLogout}
                     className="btn-hacker-outline text-sm px-4 py-1"
                   >
-                    Logout
+                    Cerrar Sesión
                   </button>
                 </div>
               ) : (
                 <div className="flex items-center space-x-4">
                   <Link to="/login" className="btn-hacker-outline text-sm px-4 py-1">
-                    Login
+                    Iniciar Sesión
                   </Link>
                   <Link to="/register" className="btn-hacker text-sm px-4 py-1">
-                    Register
+                    Registrarse
                   </Link>
                 </div>
               )}

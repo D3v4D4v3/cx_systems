@@ -6,6 +6,14 @@ import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { MagnifyingGlassIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
 
+const getProductImageUrl = (image) => {
+  if (!image) return null;
+  if (image.startsWith('http://') || image.startsWith('https://')) return image;
+  if (image.startsWith('/images/') || image.startsWith('/storage/')) return image;
+  if (image.startsWith('images/')) return `/${image}`;
+  return `/storage/${image}`;
+};
+
 const Products = () => {
   const [searchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
@@ -74,7 +82,7 @@ const Products = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      
+
       <div className="mb-8">
         <h1 className="text-5xl font-cyber font-bold text-hacker-red text-glow mb-4">
           {'<PRODUCTOS/>'}
@@ -86,7 +94,7 @@ const Products = () => {
 
       <div className="card-hacker mb-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          
+
           <div className="relative">
             <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-500" />
             <input
@@ -135,11 +143,11 @@ const Products = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {products.map((product) => (
             <div key={product.id} className="card-hacker group">
-              
+
               <div className="relative h-48 bg-hacker-gray mb-4 overflow-hidden">
                 {product.image ? (
                   <img
-                    src={product.image}
+                    src={getProductImageUrl(product.image)}
                     alt={product.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />
@@ -150,7 +158,7 @@ const Products = () => {
                     </span>
                   </div>
                 )}
-                
+
                 {product.stock > 0 ? (
                   <span className="absolute top-2 right-2 bg-green-500 text-black text-xs font-bold px-2 py-1 rounded">
                     STOCK: {product.stock}
