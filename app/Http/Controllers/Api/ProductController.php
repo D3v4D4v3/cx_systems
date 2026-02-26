@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -49,7 +50,7 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'price' => 'required|numeric|min:0',
+            'price' => 'required|numeric|gt:0',
             'stock' => 'required|integer|min:0',
             'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -59,8 +60,7 @@ class ProductController extends Controller
         $data['vendor_id'] = $request->user()->id;
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('products', 'public');
-            $data['image'] = $path;
+            $data['image'] = $this->storeProductImage($request);
         }
 
         $product = Product::create($data);
@@ -82,7 +82,7 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'sometimes|required|string|max:255',
             'description' => 'sometimes|required|string',
-            'price' => 'sometimes|required|numeric|min:0',
+            'price' => 'sometimes|required|numeric|gt:0',
             'stock' => 'sometimes|required|integer|min:0',
             'category_id' => 'sometimes|required|exists:categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -92,11 +92,8 @@ class ProductController extends Controller
         $data = $request->all();
 
         if ($request->hasFile('image')) {
-            if ($product->image) {
-                Storage::disk('public')->delete($product->image);
-            }
-            $path = $request->file('image')->store('products', 'public');
-            $data['image'] = $path;
+            $this->deleteProductImage($product->image);
+            $data['image'] = $this->storeProductImage($request);
         }
 
         $product->update($data);
@@ -115,14 +112,48 @@ class ProductController extends Controller
             ], 403);
         }
 
-        if ($product->image) {
-            Storage::disk('public')->delete($product->image);
-        }
+        $this->deleteProductImage($product->image);
 
         $product->delete();
 
         return response()->json([
             'message' => 'Producto eliminado exitosamente',
         ]);
+    }
+
+    private function storeProductImage(Request $request): string
+    {
+        $image = $request->file('image');
+        $directory = public_path('images/products');
+
+        if (!is_dir($directory)) {
+            mkdir($directory, 0755, true);
+        }
+
+        $filename = Str::uuid() . '.' . $image->getClientOriginalExtension();
+        $image->move($directory, $filename);
+
+        return 'images/products/' . $filename;
+    }
+
+    private function deleteProductImage(?string $imagePath): void
+    {
+        if (!$imagePath) {
+            return;
+        }
+
+        $normalizedPath = ltrim($imagePath, '/');
+
+        if (str_starts_with($normalizedPath, 'images/')) {
+            $publicImagePath = public_path($normalizedPath);
+
+            if (file_exists($publicImagePath)) {
+                unlink($publicImagePath);
+            }
+
+            return;
+        }
+
+        Storage::disk('public')->delete($normalizedPath);
     }
 }

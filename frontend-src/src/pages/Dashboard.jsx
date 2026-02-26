@@ -60,6 +60,12 @@ const Dashboard = () => {
 
   const handleCreateProduct = async (e) => {
     e.preventDefault();
+
+    const parsedPrice = Number(productForm.price);
+    if (!Number.isFinite(parsedPrice) || parsedPrice <= 0) {
+      alert('El precio debe ser mayor a 0');
+      return;
+    }
     
     const formData = new FormData();
     Object.keys(productForm).forEach(key => {
@@ -289,6 +295,7 @@ const Dashboard = () => {
                   <input
                     type="number"
                     step="0.01"
+                    min="0.01"
                     name="price"
                     value={productForm.price}
                     onChange={handleProductFormChange}
@@ -301,6 +308,7 @@ const Dashboard = () => {
                   <label className="block text-white font-mono text-sm mb-2">Stock *</label>
                   <input
                     type="number"
+                    min="0"
                     name="stock"
                     value={productForm.stock}
                     onChange={handleProductFormChange}
