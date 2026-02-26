@@ -25,6 +25,7 @@ class ProductSeeder extends Seeder
                 'price' => 2899.99,
                 'stock' => 35,
                 'category_id' => 1,
+                'image' => 'images/products/mouse-logitech-g502.jpg',
             ],
             [
                 'name' => 'Razer BlackWidow V4 Pro',
@@ -32,6 +33,7 @@ class ProductSeeder extends Seeder
                 'price' => 4299.99,
                 'stock' => 20,
                 'category_id' => 1,
+                'image' => 'images/products/teclado-razer-blackwidow.jpg',
             ],
             [
                 'name' => 'HyperX Cloud Alpha Wireless',
@@ -39,6 +41,7 @@ class ProductSeeder extends Seeder
                 'price' => 3499.99,
                 'stock' => 28,
                 'category_id' => 1,
+                'image' => 'images/products/audifonos-hyperx-cloud-ii.jpg',
             ],
             [
                 'name' => 'SteelSeries Apex Pro TKL',
@@ -46,6 +49,7 @@ class ProductSeeder extends Seeder
                 'price' => 3899.99,
                 'stock' => 15,
                 'category_id' => 1,
+                'image' => 'images/products/teclado-steelseries-apex-pro-tkl.jpg',
             ],
 
             // COMPONENTES PC
@@ -55,6 +59,7 @@ class ProductSeeder extends Seeder
                 'price' => 2599.99,
                 'stock' => 50,
                 'category_id' => 2,
+                'image' => 'images/products/ram-corsair-vengeance-ddr5-32gb.jpg',
             ],
             [
                 'name' => 'G.Skill Trident Z5 RGB 64GB (2x32GB) DDR5',
@@ -62,6 +67,7 @@ class ProductSeeder extends Seeder
                 'price' => 4999.99,
                 'stock' => 25,
                 'category_id' => 2,
+                'image' => 'images/products/ram-gskill-trident-z5-64gb.jpg',
             ],
             [
                 'name' => 'NVIDIA GeForce RTX 4080 SUPER',
@@ -69,6 +75,7 @@ class ProductSeeder extends Seeder
                 'price' => 24999.99,
                 'stock' => 12,
                 'category_id' => 2,
+                'image' => 'images/products/rtx-4080.jpg',
             ],
             [
                 'name' => 'AMD Ryzen 9 7950X3D',
@@ -76,6 +83,7 @@ class ProductSeeder extends Seeder
                 'price' => 12999.99,
                 'stock' => 18,
                 'category_id' => 2,
+                'image' => 'images/products/amd-ryzen-9-7950x.jpg',
             ],
 
             // MONITORES
@@ -85,6 +93,7 @@ class ProductSeeder extends Seeder
                 'price' => 18999.99,
                 'stock' => 10,
                 'category_id' => 3,
+                'image' => 'images/products/monitor-asus-rog-swift-pg279qm.jpg',
             ],
             [
                 'name' => 'Samsung Odyssey G9 49"',
@@ -92,6 +101,7 @@ class ProductSeeder extends Seeder
                 'price' => 26999.99,
                 'stock' => 6,
                 'category_id' => 3,
+                'image' => 'images/products/monitor-samsung-odyssey-g9-49.jpg',
             ],
             [
                 'name' => 'LG UltraGear 27GP950-B',
@@ -99,6 +109,7 @@ class ProductSeeder extends Seeder
                 'price' => 14999.99,
                 'stock' => 14,
                 'category_id' => 3,
+                'image' => 'images/products/monitor-lg-27gp950-4k.jpg',
             ],
             [
                 'name' => 'BenQ ZOWIE XL2566K',
@@ -106,6 +117,7 @@ class ProductSeeder extends Seeder
                 'price' => 11999.99,
                 'stock' => 22,
                 'category_id' => 3,
+                'image' => 'images/products/monitor-benq-zowie-xl2546k.jpg',
             ],
 
             // LAPTOPS GAMING
@@ -115,6 +127,7 @@ class ProductSeeder extends Seeder
                 'price' => 49999.99,
                 'stock' => 8,
                 'category_id' => 4,
+                'image' => 'images/products/laptop-asus-rog-zephyrus-g16.jpg',
             ],
             [
                 'name' => 'Razer Blade 15',
@@ -122,6 +135,7 @@ class ProductSeeder extends Seeder
                 'price' => 44999.99,
                 'stock' => 5,
                 'category_id' => 4,
+                'image' => 'images/products/laptop-razer-blade-15.jpg',
             ],
             [
                 'name' => 'MSI Titan 18 HX',
@@ -129,6 +143,7 @@ class ProductSeeder extends Seeder
                 'price' => 89999.99,
                 'stock' => 3,
                 'category_id' => 4,
+                'image' => 'images/products/laptop-msi-titan-18-hx.jpg',
             ],
 
             // SILLAS GAMING
@@ -138,6 +153,7 @@ class ProductSeeder extends Seeder
                 'price' => 9999.99,
                 'stock' => 30,
                 'category_id' => 5,
+                'image' => 'images/products/silla-secretlab-titan-evo-2024.jpg',
             ],
             [
                 'name' => 'Herman Miller X Logitech Embody',
@@ -145,6 +161,7 @@ class ProductSeeder extends Seeder
                 'price' => 34999.99,
                 'stock' => 7,
                 'category_id' => 5,
+                'image' => 'images/products/silla-herman-miller-embody.jpg',
             ],
             [
                 'name' => 'Razer Iskur V2',
@@ -152,6 +169,7 @@ class ProductSeeder extends Seeder
                 'price' => 11999.99,
                 'stock' => 20,
                 'category_id' => 5,
+                'image' => 'images/products/silla-razer-iskur-v2.jpg',
             ],
 
             // ACCESORIOS
@@ -161,6 +179,7 @@ class ProductSeeder extends Seeder
                 'price' => 699.99,
                 'stock' => 60,
                 'category_id' => 6,
+                'image' => 'images/products/mousepad-corsair-mm800-rgb.jpg',
             ],
             [
                 'name' => 'Elgato Stream Deck MK.2',
@@ -168,6 +187,7 @@ class ProductSeeder extends Seeder
                 'price' => 3299.99,
                 'stock' => 25,
                 'category_id' => 6,
+                'image' => 'images/products/streamdeck-elgato-mk2.jpg',
             ],
             [
                 'name' => 'Nanoleaf Lines Starter Kit',
@@ -175,6 +195,7 @@ class ProductSeeder extends Seeder
                 'price' => 4599.99,
                 'stock' => 18,
                 'category_id' => 6,
+                'image' => 'images/products/nanoleaf-lines-kit.jpg',
             ],
             [
                 'name' => 'Blue Yeti X',
@@ -182,6 +203,24 @@ class ProductSeeder extends Seeder
                 'price' => 3799.99,
                 'stock' => 32,
                 'category_id' => 6,
+            ],
+
+            // NUEVOS PRODUCTOS
+            [
+                'name' => 'ASUS TUF Gaming P1 × Hatsune Miku Bundle',
+                'description' => 'Set edición especial Hatsune Miku: mousepad TUF Gaming P1 de 360×260mm con diseño original de Miku + mouse inalámbrico TUF Gaming Mini Hatsune Miku Edition. Superficie optimizada para sensores ópticos, base antideslizante, costura anti-deshilachado y hasta 10,000 DPI. Colaboración oficial ASUS × Crypton Future Media.',
+                'price' => 3299.99,
+                'stock' => 15,
+                'category_id' => 6,
+                'image' => 'images/products/asus-tuf-hatsune-miku-bundle.jpg',
+            ],
+            [
+                'name' => 'Cinnamoroll Desk Mat XL Sanrio Edition',
+                'description' => 'Mousepad de escritorio XL 800×400mm estilo kawaii con diseño oficial Cinnamoroll de Sanrio. Impresión de alta definición con colores vibrantes, base de goma natural antideslizante, superficie de tela suave compatible con todos los tipos de sensores ópticos. Bordes cosidos premium para mayor durabilidad. Perfecto para setups gaming y estudio.',
+                'price' => 649.99,
+                'stock' => 40,
+                'category_id' => 6,
+                'image' => 'images/products/cinnamoroll-desk-mat-xl.jpg',
             ],
         ];
 

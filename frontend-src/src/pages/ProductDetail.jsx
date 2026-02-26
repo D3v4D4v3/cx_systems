@@ -5,14 +5,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { ArrowLeftIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
-
-const getProductImageUrl = (image) => {
-  if (!image) return null;
-  if (image.startsWith('http://') || image.startsWith('https://')) return image;
-  if (image.startsWith('/images/') || image.startsWith('/storage/')) return image;
-  if (image.startsWith('images/')) return `/${image}`;
-  return `/storage/${image}`;
-};
+import { getProductImageUrl } from '../utils/imageUrl';
 
 const ProductDetail = () => {
   const { id } = useParams();

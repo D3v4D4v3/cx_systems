@@ -1,28 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useCart } from '../context/CartContext';
+import { getProductImageUrl } from '../utils/imageUrl';
 
 const Cart = () => {
   const { cart, total, loading, updateQuantity, removeFromCart, clearCart } = useCart();
   const navigate = useNavigate();
-
-  const getProductImageUrl = (image) => {
-    if (!image) return null;
-
-    if (image.startsWith('http://') || image.startsWith('https://')) {
-      return image;
-    }
-
-    if (image.startsWith('/images/') || image.startsWith('/storage/')) {
-      return image;
-    }
-
-    if (image.startsWith('images/')) {
-      return `/${image}`;
-    }
-
-    return `/storage/${image}`;
-  };
 
   const handleQuantityChange = async (cartId, currentQuantity, delta) => {
     const newQuantity = currentQuantity + delta;

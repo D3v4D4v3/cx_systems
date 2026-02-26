@@ -50,7 +50,7 @@ const Orders = () => {
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
                   <p className="text-hacker-red font-mono text-sm">Pedido #{order.id}</p>
-                  <p className="text-white font-bold text-xl">${Number(order.total_amount).toFixed(2)} MXN</p>
+                  <p className="text-white font-bold text-xl">${Number(order.total).toFixed(2)} MXN</p>
                   <p className="text-gray-400 font-mono text-sm">
                     {new Date(order.created_at).toLocaleString()}
                   </p>

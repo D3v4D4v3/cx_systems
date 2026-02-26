@@ -107,7 +107,7 @@ const OrdersManagement = () => {
                       <span className="text-xs text-gray-500">{order.user?.email}</span>
                     </td>
                     <td className="py-4 text-hacker-red font-bold">
-                      ${Number(order.total_amount).toFixed(2)}
+                      ${Number(order.total).toFixed(2)}
                     </td>
                     <td className="py-4">
                       <span className={`font-mono text-sm uppercase font-bold ${getStatusColor(order.status)}`}>
@@ -176,7 +176,7 @@ const OrdersManagement = () => {
                 <div>
                   <p className="text-gray-500 text-sm font-mono mb-1">Total</p>
                   <p className="text-hacker-red font-bold text-xl">
-                    ${Number(selectedOrder.total_amount).toFixed(2)} MXN
+                    ${Number(selectedOrder.total).toFixed(2)} MXN
                   </p>
                 </div>
               </div>

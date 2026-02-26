@@ -54,7 +54,7 @@ const OrderDetail = () => {
           Estado: <span className="text-green-500 uppercase">{order.status}</span>
         </p>
         <p className="text-gray-400 font-mono">
-          Total: <span className="text-hacker-red font-bold">${Number(order.total_amount).toFixed(2)} MXN</span>
+          Total: <span className="text-hacker-red font-bold">${Number(order.total).toFixed(2)} MXN</span>
         </p>
       </div>
 

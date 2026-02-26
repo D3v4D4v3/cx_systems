@@ -37,11 +37,13 @@ class ProductController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
+        $data = $request->only(['name', 'price', 'stock', 'category']);
+
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('products', 'public');
         }
 
-        Product::create($request->all());
+        Product::create($data);
 
         return redirect()->route('products.index')->with('success', 'Hardware agregado al sistema.');
     }
@@ -77,6 +79,6 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $product->delete();
-        return redirect()->route('products.index')->with('success', 'Hardare eliminado del sistema');
+        return redirect()->route('products.index')->with('success', 'Hardware eliminado del sistema');
     }
 }

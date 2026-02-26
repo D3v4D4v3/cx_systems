@@ -5,14 +5,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { MagnifyingGlassIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
-
-const getProductImageUrl = (image) => {
-  if (!image) return null;
-  if (image.startsWith('http://') || image.startsWith('https://')) return image;
-  if (image.startsWith('/images/') || image.startsWith('/storage/')) return image;
-  if (image.startsWith('images/')) return `/${image}`;
-  return `/storage/${image}`;
-};
+import { getProductImageUrl } from '../utils/imageUrl';
 
 const Products = () => {
   const [searchParams] = useSearchParams();
@@ -33,8 +26,13 @@ const Products = () => {
     }
   }, [searchParams]);
 
+  // Cargar categorías solo una vez al montar el componente
   useEffect(() => {
     fetchCategories();
+  }, []);
+
+  // Cargar productos cuando cambian los filtros
+  useEffect(() => {
     fetchProducts();
   }, [search, selectedCategory, sortBy]);
 
