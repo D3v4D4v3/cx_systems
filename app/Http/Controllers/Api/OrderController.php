@@ -11,7 +11,6 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -82,9 +81,8 @@ class OrderController extends Controller
 
                 // 2. Crear la orden
                 $order = Order::create([
-                    'order_number'     => 'ORD-' . strtoupper(Str::random(10)),
                     'user_id'          => $user->id,
-                    'total'            => $total,
+                    'total_amount'     => $total,
                     'status'           => 'pendiente',
                     'shipping_address' => $validated['shipping_address'] ?? null,
                     'phone'            => $validated['phone'] ?? null,

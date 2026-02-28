@@ -1,16 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+// Archivo de rutas para la aplicación web. Todas las rutas que no sean /api o /storage devuelven el SPA de React.
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Todas las rutas que no sean /api o /storage devuelven el SPA de React.
-| Esto permite que React Router maneje la navegación del lado del cliente.
-|
-*/
+use Illuminate\Support\Facades\Route;
 
 Route::get('/{any}', function () {
     $path = public_path('frontend/index.html');
@@ -20,7 +12,8 @@ Route::get('/{any}', function () {
     }
 
     return response()->file($path, [
+        // Asegura que el navegador interprete el archivo como HTML y no lo almacene en caché para evitar problemas de actualización.
         'Content-Type' => 'text/html; charset=utf-8',
         'Cache-Control' => 'no-store, no-cache, must-revalidate',
     ]);
-})->where('any', '^(?!api|storage).*$');
+})->where('any', '^(?!api|storage).*$'); // Excluye rutas que comienzan con /api o /storage

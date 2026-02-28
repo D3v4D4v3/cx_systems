@@ -37,7 +37,7 @@ const Register = () => {
     const result = await register(formData);
 
     if (result.success) {
-      navigate('/products');
+      navigate('/');
     } else {
       setError(result.error);
     }

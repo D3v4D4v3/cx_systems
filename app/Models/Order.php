@@ -11,17 +11,27 @@ class Order extends Model
 
     protected $fillable = [
         'user_id',
-        'order_number',
-        'total',
+        'total_amount',
         'status',
         'shipping_address',
         'phone',
         'notes',
+        'payment_method',
+        'payment_id',
     ];
 
     protected $casts = [
-        'total' => 'decimal:2',
+        'total_amount' => 'decimal:2',
     ];
+
+    protected $appends = [
+        'total',
+    ];
+
+    public function getTotalAttribute()
+    {
+        return $this->total_amount;
+    }
 
     public function user()
     {

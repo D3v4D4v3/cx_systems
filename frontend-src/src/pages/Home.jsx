@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingBagIcon, CpuChipIcon, TvIcon } from '@heroicons/react/24/outline';
 import api from '../api/axios';
+import { useAuth } from '../context/AuthContext';
 
 const Home = () => {
   const [productCount, setProductCount] = useState(0);
+  const { user } = useAuth();
 
   useEffect(() => {
     let isMounted = true;
@@ -53,9 +55,11 @@ const Home = () => {
               <Link to="/products" className="btn-hacker text-lg px-8 py-3">
                 VER PRODUCTOS
               </Link>
-              <Link to="/register" className="btn-hacker-outline text-lg px-8 py-3">
-                REGISTRARSE
-              </Link>
+              {!user && (
+                <Link to="/register" className="btn-hacker-outline text-lg px-8 py-3">
+                  REGISTRARSE
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -116,21 +120,23 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="card-hacker max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl font-cyber font-bold text-hacker-red text-glow mb-6">
-              {'<ÚNETE AL SISTEMA/>'}
-            </h2>
-            <p className="text-xl text-gray-300 font-mono mb-8">
-              Regístrate ahora y obtén acceso a ofertas exclusivas y lanzamientos anticipados
-            </p>
-            <Link to="/register" className="btn-hacker text-lg px-8 py-3 inline-block">
-              CREAR CUENTA AHORA
-            </Link>
+      {!user && (
+        <section className="py-20">
+          <div className="container mx-auto px-4">
+            <div className="card-hacker max-w-4xl mx-auto text-center">
+              <h2 className="text-4xl font-cyber font-bold text-hacker-red text-glow mb-6">
+                {'<ÚNETE AL SISTEMA/>'}
+              </h2>
+              <p className="text-xl text-gray-300 font-mono mb-8">
+                Regístrate ahora y obtén acceso a ofertas exclusivas y lanzamientos anticipados
+              </p>
+              <Link to="/register" className="btn-hacker text-lg px-8 py-3 inline-block">
+                CREAR CUENTA AHORA
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section className="py-12 bg-hacker-black border-t-2 border-hacker-red/30">
         <div className="container mx-auto px-4">
