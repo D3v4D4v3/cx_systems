@@ -14,6 +14,7 @@ Plataforma e-commerce de hardware gaming construida con Laravel 10 (API) y React
 ## 2) Alcance funcional
 
 - Registro e inicio de sesión por API
+- Tokens de paso con caducidad
 - Roles: vendedor y cliente
 - Catálogo con filtros y búsqueda
 - Carrito de compras

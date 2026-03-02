@@ -49,7 +49,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Órdenes (usuarios pueden crear órdenes, vendedores pueden ver órdenes relacionadas a sus productos)
     Route::post('/orders', [OrderController::class, 'store']); 
-    Route::get('/orders', [OrderController::class, 'index']); 
+    Route::get('/orders', [OrderController::class, 'index']);
     Route::get('/orders/{order}', [OrderController::class, 'show']);
     Route::get('/orders/all/list', [OrderController::class, 'allOrders']);
     Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus']);

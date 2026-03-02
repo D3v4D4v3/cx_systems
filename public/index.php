@@ -1,55 +1,29 @@
 <?php
 
+// El punto de entrada para las solicitudes HTTP a la aplicación Laravel. Este archivo se encarga de cargar el framework y manejar la solicitud entrante.
+
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
 
-/*
-|--------------------------------------------------------------------------
-| Check If The Application Is Under Maintenance
-|--------------------------------------------------------------------------
-|
-| If the application is in maintenance / demo mode via the "down" command
-| we will load this file so that any pre-rendered content can be shown
-| instead of starting the framework, which could cause an exception.
-|
-*/
-
+// Si la aplicación está en modo de mantenimiento, se carga el archivo de mantenimiento para mostrar una página de "Mantenimiento en progreso" a los usuarios.
 if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
     require $maintenance;
 }
 
-/*
-|--------------------------------------------------------------------------
-| Register The Auto Loader
-|--------------------------------------------------------------------------
-|
-| Composer provides a convenient, automatically generated class loader for
-| this application. We just need to utilize it! We'll simply require it
-| into the script here so we don't need to manually load our classes.
-|
-*/
-
+// Autoloader de Composer, para cargar las dependencias del proyecto.
 require __DIR__.'/../vendor/autoload.php';
 
-/*
-|--------------------------------------------------------------------------
-| Run The Application
-|--------------------------------------------------------------------------
-|
-| Once we have the application, we can handle the incoming request using
-| the application's HTTP kernel. Then, we will send the response back
-| to this client's browser, allowing them to enjoy our application.
-|
-*/
-
+// Carga la aplicación Laravel, que devuelve una instancia del contenedor de servicios.
 $app = require_once __DIR__.'/../bootstrap/app.php';
 
 $kernel = $app->make(Kernel::class);
 
+// Captura la solicitud HTTP entrante, la procesa a través del kernel de Laravel y envía la respuesta al cliente.
 $response = $kernel->handle(
     $request = Request::capture()
 )->send();
 
+// Termina el kernel, lo que permite realizar cualquier limpieza necesaria después de enviar la respuesta.
 $kernel->terminate($request, $response);

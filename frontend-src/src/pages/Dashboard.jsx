@@ -40,6 +40,7 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
+  // Función para cargar productos y categorías desde el backend
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -54,14 +55,16 @@ const Dashboard = () => {
     }
   };
 
+  // Función para manejar cambios en el formulario de producto (tanto para creación como edición)
   const handleProductFormChange = (e) => {
     if (e.target.name === 'image') {
-      setProductForm({ ...productForm, image: e.target.files[0] });
+      setProductForm({ ...productForm, image: e.target.files[0] }); // Para el campo de imagen, guardamos el archivo seleccionado
     } else {
-      setProductForm({ ...productForm, [e.target.name]: e.target.value });
+      setProductForm({ ...productForm, [e.target.name]: e.target.value }); // Para los demás campos, actualizamos el estado con el valor ingresado
     }
   };
 
+  // Función para manejar la creación o actualización de un producto: valida el precio, construye un FormData y envía la petición al backend
   const handleCreateProduct = async (e) => {
     e.preventDefault();
 
@@ -72,6 +75,7 @@ const Dashboard = () => {
     }
 
     const formData = new FormData();
+    // Agregamos solo los campos que tienen valor para evitar enviar campos vacíos al backend
     Object.keys(productForm).forEach(key => {
       if (productForm[key]) {
         formData.append(key, productForm[key]);
@@ -107,6 +111,7 @@ const Dashboard = () => {
     }
   };
 
+  // Funciones para manejar la edición y eliminación de productos: al editar se llena el formulario con los datos del producto seleccionado, y al eliminar se pide confirmación antes de enviar la petición al backend
   const handleEditProduct = (product) => {
     setEditingProduct(product);
     setProductForm({
@@ -120,13 +125,14 @@ const Dashboard = () => {
     setShowProductModal(true);
   };
 
+  // Función para eliminar un producto: pide confirmación al usuario antes de enviar la petición DELETE al backend, y luego recarga la lista de productos
   const handleDeleteProduct = async (productId) => {
     if (!confirm('¿Estás seguro de eliminar este producto?')) return;
 
     try {
       await api.delete(`/products/${productId}`);
       alert('Producto eliminado exitosamente');
-      fetchData();
+      fetchData(); 
     } catch (error) {
       alert(error.response?.data?.message || 'Error al eliminar producto');
     }
@@ -312,7 +318,7 @@ const Dashboard = () => {
                   <label className="block text-white font-mono text-sm mb-2">Stock *</label>
                   <input
                     type="number"
-                    min="0"
+                    min="1"
                     name="stock"
                     value={productForm.stock}
                     onChange={handleProductFormChange}

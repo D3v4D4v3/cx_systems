@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// Se crea una instancia de Axios con la configuración base para la API
 const api = axios.create({
   baseURL: '/api',
   headers: {
@@ -8,6 +9,7 @@ const api = axios.create({
   },
 });
 
+// Interceptor para agregar el token de autenticación a cada solicitud
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -21,6 +23,7 @@ api.interceptors.request.use(
   }
 );
 
+// Interceptor para manejar respuestas de error, especialmente para redirigir al login en caso de 401
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -33,4 +36,5 @@ api.interceptors.response.use(
   }
 );
 
+// Exportamos la instancia de Axios para usarla en el resto de la aplicación
 export default api;

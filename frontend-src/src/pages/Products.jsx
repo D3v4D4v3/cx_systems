@@ -36,6 +36,7 @@ const Products = () => {
     fetchProducts();
   }, [search, selectedCategory, sortBy]);
 
+  // Función para cargar las categorías desde el backend: maneja errores mostrando un mensaje en la consola
   const fetchCategories = async () => {
     try {
       const response = await api.get('/categories');
@@ -45,6 +46,7 @@ const Products = () => {
     }
   };
 
+  // Función para cargar los productos desde el backend: construye los parámetros de búsqueda según los filtros seleccionados, muestra un spinner de carga mientras se obtiene la información, y maneja errores mostrando un mensaje en la consola
   const fetchProducts = async () => {
     try {
       setLoading(true);
@@ -63,6 +65,7 @@ const Products = () => {
     }
   };
 
+  // Función para manejar la acción de agregar el producto al carrito: si el usuario no está autenticado, muestra una alerta y redirige al login; si el usuario está autenticado, llama a la función addToCart del contexto del carrito, muestra una alerta con el resultado, y si se agregó correctamente, redirige al carrito
   const handleAddToCart = async (productId) => {
     if (!user) {
       alert('Debes iniciar sesión para agregar productos al carrito');

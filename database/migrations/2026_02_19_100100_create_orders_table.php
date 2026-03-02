@@ -13,6 +13,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->decimal('total_amount', 10, 2);
             $table->string('status')->default('paid');
+            $table->string('payment_method')->nullable();
+            $table->string('payment_id')->nullable();
             $table->string('shipping_address')->nullable();
             $table->string('phone', 20)->nullable();
             $table->text('notes')->nullable();

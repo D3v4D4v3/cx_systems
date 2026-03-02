@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
+    // Mostrar el contenido del carrito del usuario autenticado
     public function index(Request $request)
     {
         $cart = Cart::with('product.category')
@@ -25,6 +26,7 @@ class CartController extends Controller
         ]);
     }
 
+    // Agregar un producto al carrito
     public function store(Request $request)
     {
         if (!$request->user()->isClient()) {
@@ -70,6 +72,7 @@ class CartController extends Controller
         ], 201);
     }
 
+    // Actualizar la cantidad de un producto en el carrito
     public function update(Request $request, Cart $cart)
     {
         if ($cart->user_id !== $request->user()->id) {
@@ -106,6 +109,7 @@ class CartController extends Controller
         ]);
     }
 
+    // Eliminar un producto del carrito
     public function destroy(Request $request, Cart $cart)
     {
         if ($cart->user_id !== $request->user()->id) {

@@ -10,6 +10,7 @@ class Category extends Model
 {
     use HasFactory;
 
+    // Campos que se pueden asignar masivamente
     protected $fillable = [
         'name',
         'slug',
@@ -17,6 +18,7 @@ class Category extends Model
         'is_active',
     ];
 
+    // Definir el tipo de dato para is_active
     protected $casts = [
         'is_active' => 'boolean',
     ];

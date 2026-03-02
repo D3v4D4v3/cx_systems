@@ -14,6 +14,7 @@ class EventServiceProvider extends ServiceProvider
      *
      * @var array<class-string, array<int, class-string>>
      */
+    // Aquí se definen los eventos y sus respectivos listeners. En este caso, se está indicando que cuando se dispare el evento Registered (que ocurre cuando un nuevo usuario se registra), se debe ejecutar el listener SendEmailVerificationNotification, que se encarga de enviar una notificación de verificación de correo electrónico al nuevo usuario.
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,

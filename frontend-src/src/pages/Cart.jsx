@@ -7,22 +7,26 @@ const Cart = () => {
   const { cart, total, loading, updateQuantity, removeFromCart, clearCart } = useCart();
   const navigate = useNavigate();
 
+  // Función para manejar el cambio de cantidad de un producto en el carrito
   const handleQuantityChange = async (cartId, currentQuantity, delta) => {
     const newQuantity = currentQuantity + delta;
     if (newQuantity < 1) return;
     await updateQuantity(cartId, newQuantity);
   };
 
+  // Función para eliminar un producto del carrito con confirmación
   const handleRemove = async (cartId) => {
     if (!confirm('¿Estás seguro de eliminar este producto?')) return;
     await removeFromCart(cartId);
   };
 
+  // Función para vaciar el carrito con confirmación
   const handleClear = async () => {
     if (!confirm('¿Estás seguro de vaciar el carrito?')) return;
     await clearCart();
   };
 
+  // Si estamos cargando el carrito, mostramos un spinner de carga
   if (loading) {
     return <LoadingSpinner />;
   }

@@ -11,6 +11,7 @@ const Orders = () => {
     fetchOrders();
   }, []);
 
+  // Función para cargar los pedidos del usuario desde el backend: muestra un spinner de carga mientras se obtiene la información, y maneja errores mostrando un mensaje en la consola
   const fetchOrders = async () => {
     try {
       setLoading(true);

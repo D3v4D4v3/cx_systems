@@ -9,8 +9,9 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens; // HasApiTokens para autenticación API
 
+    // Campos que se pueden asignar masivamente
     protected $fillable = [
         'name',
         'email',
@@ -20,11 +21,13 @@ class User extends Authenticatable
         'address',
     ];
 
+    // Campos que se ocultan en las respuestas JSON
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
+    // Definir el tipo de dato para email_verified_at y password
     protected function casts(): array
     {
         return [
@@ -45,11 +48,13 @@ class User extends Authenticatable
         return $this->hasMany(Product::class, 'vendor_id');
     }
 
+    // Relación: Un cliente tiene muchos items en el carrito
     public function cartItems()
     {
         return $this->hasMany(Cart::class);
     }
 
+    // Relación: Un cliente tiene muchos pedidos
     public function orders()
     {
         return $this->hasMany(Order::class);
@@ -61,6 +66,7 @@ class User extends Authenticatable
         return $this->role_id === 1;
     }
 
+    // Helper para verificar si el usuario es cliente
     public function isClient()
     {
         return $this->role_id === 2;

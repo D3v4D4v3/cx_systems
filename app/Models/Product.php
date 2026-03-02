@@ -10,6 +10,7 @@ class Product extends Model
 {
     use HasFactory;
 
+    // Campos que se pueden asignar masivamente
     protected $fillable = [
         'name',
         'slug',
@@ -22,6 +23,7 @@ class Product extends Model
         'is_active',
     ];
 
+    // Definir el tipo de dato para price y is_active
     protected $casts = [
         'price' => 'decimal:2',
         'is_active' => 'boolean',
@@ -51,11 +53,13 @@ class Product extends Model
         return $this->belongsTo(User::class, 'vendor_id');
     }
 
+    // Relación: Un producto tiene muchos items en el carrito
     public function cartItems()
     {
         return $this->hasMany(Cart::class);
     }
 
+    // Relación: Un producto tiene muchos items en los pedidos
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class);

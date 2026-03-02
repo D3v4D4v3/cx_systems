@@ -5,16 +5,16 @@
 
     RewriteEngine On
 
-    # Handle Authorization Header
+    # Asegura que el encabezado de autorización se pase a PHP, necesario para autenticación API.
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-    # Redirect Trailing Slashes If Not A Folder (308 = preserve method, e.g. POST stays POST)
+    # Elimina la barra diagonal al final de las URLs, para evitar problemas de redirección y SEO.
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=308]
 
-    # Send Requests To Front Controller...
+    # Redirige todas las solicitudes a index.php, excepto si el archivo o directorio existe, lo que permite que Laravel maneje las rutas de la aplicación.
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]

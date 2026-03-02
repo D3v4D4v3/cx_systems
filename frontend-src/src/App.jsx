@@ -22,6 +22,7 @@ import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import Contact from './pages/Contact';
 
+// Rutas protegidas: ProtectedRoute para rutas que requieren autenticación (con opciones para restringir a vendedores o clientes), y GuestRoute para rutas que solo pueden acceder usuarios no autenticados
 const ProtectedRoute = ({ children, vendorOnly = false, clientOnly = false }) => {
   const { user, loading, isVendor, isClient } = useAuth();
 
@@ -44,6 +45,7 @@ const ProtectedRoute = ({ children, vendorOnly = false, clientOnly = false }) =>
   return children;
 };
 
+// Ruta para usuarios no autenticados: si el usuario está autenticado, redirige a /products; si no, muestra el contenido de la ruta (por ejemplo, login o register)
 const GuestRoute = ({ children }) => {
   const { user, loading } = useAuth();
 
@@ -58,6 +60,7 @@ const GuestRoute = ({ children }) => {
   return children;
 };
 
+// Componente principal de la aplicación: envuelve el contenido con los proveedores de autenticación y carrito, y define las rutas de la aplicación
 function AppContent() {
   return (
     <Router>
@@ -154,6 +157,7 @@ function AppContent() {
   );
 }
 
+// Componente principal de la aplicación: envuelve el contenido con los proveedores de autenticación y carrito, y define las rutas de la aplicación
 function App() {
   return (
     <AuthProvider>

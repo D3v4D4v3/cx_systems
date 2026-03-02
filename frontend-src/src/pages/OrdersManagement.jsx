@@ -20,6 +20,7 @@ const OrdersManagement = () => {
     fetchOrders();
   }, []);
 
+  // Función para cargar los pedidos del sistema desde el backend: muestra un spinner de carga mientras se obtiene la información, y maneja errores mostrando un mensaje en la consola
   const fetchOrders = async () => {
     try {
       const response = await api.get('/orders/all/list');
@@ -31,6 +32,7 @@ const OrdersManagement = () => {
     }
   };
 
+  // Función para actualizar el estado de un pedido: envía una petición PATCH al backend con el nuevo estado, muestra una alerta con el resultado, recarga la lista de pedidos, y si el pedido actualizado es el que se está viendo en el modal de detalle, cierra el modal para evitar mostrar información desactualizada
   const handleUpdateStatus = async (orderId, newStatus) => {
     try {
       await api.patch(`/orders/${orderId}/status`, { status: newStatus });
@@ -45,6 +47,7 @@ const OrdersManagement = () => {
     }
   };
 
+  // Función para mostrar el detalle de un pedido: envía una petición GET al backend para obtener la información completa del pedido seleccionado, y si se obtiene correctamente, muestra un modal con los detalles del pedido. Si hay un error al cargar el detalle, muestra una alerta con el mensaje de error.
   const viewOrderDetail = async (orderId) => {
     try {
       const response = await api.get(`/orders/${orderId}`);
@@ -55,6 +58,7 @@ const OrdersManagement = () => {
     }
   };
 
+  // Función para obtener la clase de color correspondiente al estado del pedido: define un objeto con los colores para cada estado, y devuelve el color correspondiente al estado recibido como argumento, o un color gris por defecto si el estado no está definido
   const getStatusColor = (status) => {
     const colors = {
       pendiente: 'text-yellow-500',

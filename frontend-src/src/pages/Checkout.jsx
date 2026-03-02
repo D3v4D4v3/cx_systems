@@ -14,12 +14,14 @@ const Checkout = () => {
   const [paymentStep, setPaymentStep] = useState('form'); // 'form' | 'payment' | 'processing'
   const [paymentMethods, setPaymentMethods] = useState([]);
 
+  // Inicializamos los datos del formulario con la información del usuario si está disponible
   const [formData, setFormData] = useState({
     shipping_address: user?.address || '',
     phone: user?.phone || '',
     notes: '',
   });
 
+  // Estado para los datos de pago, con valores iniciales vacíos
   const [paymentData, setPaymentData] = useState({
     card_number: '',
     card_holder: '',
@@ -28,6 +30,7 @@ const Checkout = () => {
     payment_method: 'credit_card',
   });
 
+  // Cargamos los métodos de pago disponibles al montar el componente
   useEffect(() => {
     const loadPaymentMethods = async () => {
       try {
@@ -40,25 +43,29 @@ const Checkout = () => {
     loadPaymentMethods();
   }, []);
 
+  // Función para manejar cambios en los campos del formulario de datos de entrega
   const handleChange = (e) => {
     setFormData({
-      ...formData,
+      ...formData, // Mantenemos el resto de los datos del formulario sin cambios
       [e.target.name]: e.target.value,
     });
   };
 
+  // Función para manejar cambios en los campos del formulario de datos de pago
   const handlePaymentChange = (e) => {
     setPaymentData({
-      ...paymentData,
+      ...paymentData, // Mantenemos el resto de los datos de pago sin cambios
       [e.target.name]: e.target.value,
     });
   };
 
+  // Función para manejar el envío del formulario de datos de entrega y avanzar al paso de pago
   const handleFormSubmit = (e) => {
     e.preventDefault();
     setPaymentStep('payment');
   };
 
+  // Función para manejar el envío del formulario de datos de pago, procesar el pago y crear el pedido
   const handlePaymentSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -68,7 +75,7 @@ const Checkout = () => {
     try {
       const paymentResponse = await api.post('/payment/process', {
         amount: total,
-        ...paymentData,
+        ...paymentData, // Incluimos los datos de pago en la solicitud al backend para simular el procesamiento del pago
       });
 
       if (!paymentResponse.data.success) {
@@ -76,7 +83,7 @@ const Checkout = () => {
       }
 
       await api.post('/orders', {
-        ...formData,
+        ...formData, // Incluimos los datos de entrega en la solicitud para crear el pedido
         payment_id: paymentResponse.data.payment_id,
         payment_method: paymentData.payment_method,
       });
@@ -218,6 +225,7 @@ const Checkout = () => {
                   onChange={handlePaymentChange}
                   className="input-hacker"
                   placeholder="4532015112830366"
+                  minLength="16"
                   maxLength="16"
                   required
                 />
@@ -231,7 +239,7 @@ const Checkout = () => {
                   value={paymentData.card_holder}
                   onChange={handlePaymentChange}
                   className="input-hacker"
-                  placeholder="JUAN PEREZ"
+                  placeholder="JOHN DOE"
                   required
                 />
               </div>
@@ -245,7 +253,8 @@ const Checkout = () => {
                     value={paymentData.expiry_date}
                     onChange={handlePaymentChange}
                     className="input-hacker"
-                    placeholder="12/25"
+                    placeholder="12/26"
+                    minLength="5"
                     maxLength="5"
                     required
                   />
@@ -259,6 +268,7 @@ const Checkout = () => {
                     onChange={handlePaymentChange}
                     className="input-hacker"
                     placeholder="123"
+                    minLength="3"
                     maxLength="3"
                     required
                   />

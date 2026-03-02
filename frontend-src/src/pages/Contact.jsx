@@ -9,6 +9,7 @@ const Contact = () => {
     message: '',
   });
 
+  // Función para manejar cambios en los campos del formulario y actualizar el estado formData
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -16,6 +17,7 @@ const Contact = () => {
     });
   };
 
+  // Función para manejar el envío del formulario: construye un enlace mailto con los datos del formulario y redirige al cliente de correo
   const handleSubmit = (e) => {
     e.preventDefault();
     const mailtoLink = `mailto:support@cxsystems.com?subject=${encodeURIComponent(
@@ -34,7 +36,6 @@ const Contact = () => {
         </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Información de contacto */}
           <div className="card-hacker space-y-6">
             <h2 className="text-2xl font-cyber font-bold text-white mb-6">
               INFORMACIÓN DE CONTACTO
@@ -110,7 +111,6 @@ const Contact = () => {
             </div>
           </div>
 
-          {/* Formulario de contacto */}
           <div className="card-hacker">
             <h2 className="text-2xl font-cyber font-bold text-white mb-6">
               ENVÍANOS UN MENSAJE
@@ -188,7 +188,6 @@ const Contact = () => {
           </div>
         </div>
 
-        {/* FAQ Section */}
         <div className="card-hacker mt-8">
           <h2 className="text-2xl font-cyber font-bold text-white mb-6">
             PREGUNTAS FRECUENTES

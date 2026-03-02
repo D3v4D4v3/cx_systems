@@ -14,6 +14,7 @@ const OrderDetail = () => {
     fetchOrder();
   }, [id]);
 
+  // Función para cargar los detalles de un pedido desde el backend: muestra un spinner de carga mientras se obtiene la información, y maneja errores mostrando una alerta y redirigiendo al listado de pedidos si no se pudo cargar el pedido
   const fetchOrder = async () => {
     try {
       setLoading(true);

@@ -10,5 +10,5 @@ export const getProductImageUrl = (image) => {
     if (image.startsWith('http://') || image.startsWith('https://')) return image;
     if (image.startsWith('/images/') || image.startsWith('/storage/')) return image;
     if (image.startsWith('images/')) return `/${image}`;
-    return `/storage/${image}`;
+    return `/images/products/${image}`;
 };

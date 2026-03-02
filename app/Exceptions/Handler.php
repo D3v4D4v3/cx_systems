@@ -30,6 +30,7 @@ class Handler extends ExceptionHandler
      *
      * @var array<int, string>
      */
+    // No se deben incluir campos sensibles como contraseñas en los mensajes de error para evitar fugas de información
     protected $dontFlash = [
         'current_password',
         'password',
@@ -39,6 +40,7 @@ class Handler extends ExceptionHandler
     /**
      * Register the exception handling callbacks for the application.
      */
+    // Aquí se pueden registrar callbacks personalizados para manejar excepciones específicas o para realizar acciones adicionales cuando se reportan errores
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {

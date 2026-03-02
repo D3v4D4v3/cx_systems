@@ -12,6 +12,7 @@ const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  // Función para manejar cambios en los campos del formulario de inicio de sesión: actualiza el estado formData con los valores ingresados por el usuario
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -19,6 +20,7 @@ const Login = () => {
     });
   };
 
+  // Función para manejar el envío del formulario de inicio de sesión: llama a la función login del contexto de autenticación, maneja el estado de carga y muestra errores si los hay
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');

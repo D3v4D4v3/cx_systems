@@ -3,25 +3,28 @@ import api from '../api/axios';
 
 const AuthContext = createContext(null);
 
+// Hook personalizado para acceder al contexto de autenticación
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) throw new Error('useAuth must be used within AuthProvider');
   return context;
 };
 
+// Proveedor de autenticación que envuelve la aplicación y proporciona estado y funciones de autenticación
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null); 
+  const [loading, setLoading] = useState(true); // Estado para indicar si estamos verificando el token al cargar la aplicación
 
   // Al montar: verifica el token contra el servidor para no confiar ciegamente en localStorage
   useEffect(() => {
     const token = localStorage.getItem('token');
 
     if (!token) {
-      setLoading(false);
+      setLoading(false); // No hay token, no hay usuario
       return;
     }
 
+    // Verificar token con el servidor para obtener datos actualizados del usuario
     api.get('/me')
       .then(({ data }) => {
         setUser(data.user);
@@ -33,12 +36,13 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('user');
         setUser(null);
       })
-      .finally(() => setLoading(false));
+      .finally(() => setLoading(false)); // Cualquiera sea el resultado, ya no estamos cargando
   }, []);
 
+  // Función para iniciar sesión: envía credenciales, recibe token y datos del usuario
   const login = useCallback(async (email, password) => {
     try {
-      const { data } = await api.post('/login', { email, password });
+      const { data } = await api.post('/login', { email, password }); // Envía credenciales al backend
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
       setUser(data.user);
@@ -51,6 +55,7 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
+  // Función para registrarse: envía datos del nuevo usuario, recibe token y datos del usuario registrado
   const register = useCallback(async (userData) => {
     try {
       const { data } = await api.post('/register', userData);
@@ -66,11 +71,13 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
+  // Función para cerrar sesión: llama al endpoint de logout y limpia el estado local
   const logout = useCallback(async () => {
     try {
       await api.post('/logout');
-    } catch {
+    } catch (error) {
       // Si falla la petición igual limpiamos localmente
+      console.error('Error al cerrar sesión:', error);
     } finally {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
@@ -83,7 +90,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ user, login, register, logout, loading, isVendor, isClient }}>
-      {children}
+      {children} 
     </AuthContext.Provider>
   );
 };

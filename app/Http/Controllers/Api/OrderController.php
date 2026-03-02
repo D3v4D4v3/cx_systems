@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
+    // Clientes ven sus órdenes, vendedores ven órdenes relacionadas a sus productos
     public function index(Request $request): JsonResponse
     {
         $orders = Order::withCount('items')
@@ -21,9 +22,12 @@ class OrderController extends Controller
             ->latest()
             ->get();
 
-        return response()->json(['orders' => $orders]);
+        return response()->json([
+            'orders' => $orders
+        ]);
     }
 
+    // Detalles de una orden específica (clientes solo ven sus órdenes, vendedores ven órdenes relacionadas a sus productos)
     public function show(Request $request, Order $order): JsonResponse
     {
         $user = $request->user();
@@ -37,6 +41,7 @@ class OrderController extends Controller
         ]);
     }
 
+    // Crear una nueva orden a partir del carrito del usuario autenticado
     public function store(Request $request): JsonResponse
     {
         if (! $request->user()->isClient()) {
@@ -65,6 +70,7 @@ class OrderController extends Controller
 
                 // 1. Validar stock y calcular total (un solo lock por producto)
                 foreach ($cartItems as $item) {
+                    // Bloquear el producto para evitar condiciones de carrera en stock
                     $product = Product::lockForUpdate()->find($item->product_id);
 
                     if (! $product || ! $product->is_active) {
@@ -87,9 +93,8 @@ class OrderController extends Controller
                     'shipping_address' => $validated['shipping_address'] ?? null,
                     'phone'            => $validated['phone'] ?? null,
                     'notes'            => $validated['notes'] ?? null,
-                    // No hay payment_id en la base de datos
-                    // 'payment_id'       => $validated['payment_id'] ?? null,
-                    // 'payment_method'   => $validated['payment_method'] ?? 'credit_card',
+                    'payment_id'       => $validated['payment_id'] ?? null,
+                    'payment_method'   => $validated['payment_method'] ?? 'credit_card',
                 ]);
 
                 // 3. Crear items y descontar stock (usando los productos ya bloqueados)
@@ -123,6 +128,7 @@ class OrderController extends Controller
         ], 201);
     }
 
+    // Solo los vendedores pueden actualizar el estado de una orden
     public function updateStatus(Request $request, Order $order): JsonResponse
     {
         if (! $request->user()->isVendor()) {
@@ -141,6 +147,7 @@ class OrderController extends Controller
         ]);
     }
 
+    // Solo los vendedores pueden ver todas las órdenes (con paginación)
     public function allOrders(Request $request): JsonResponse
     {
         if (! $request->user()->isVendor()) {

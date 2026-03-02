@@ -6,20 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-/**
- * Controlador de pasarela de pago SIMULADA (Mock)
- * 
- * Esta es una simulación de una pasarela de pago real como Stripe o PayPal.
- * En producción, esto se reemplazaría con la integración real de una pasarela.
- */
+// Controlador para simular procesamiento de pagos (sin integración real)
+
 class PaymentController extends Controller
 {
-    /**
-     * Simular procesamiento de pago
-     * 
-     * Este endpoint simula el procesamiento de un pago.
-     * En un escenario real, aquí se enviaría la información a Stripe/PayPal/etc.
-     */
+    // Simular el procesamiento de un pago con tarjeta (no se integra con ningún gateway real)
     public function processPayment(Request $request)
     {
         $request->validate([
@@ -32,8 +23,22 @@ class PaymentController extends Controller
 
         usleep(500000); // 0.5 segundos
 
+        
         $lastDigit = (int) substr($request->card_number, -1);
-        $success = ($lastDigit % 2 === 0);
+        $success = ($lastDigit % 2 === 0); // Simula éxito si termina en número par, rechazo si termina en impar
+
+        // Validar fecha de expiración (formato MM/YY)
+        $expiryParts = explode('/', $request->expiry_date);
+        $expiryMonth = (int) $expiryParts[0];
+        $expiryYear = (int) ('20' . $expiryParts[1]); // Asume que el año es 20XX
+        $currentYear = (int) date('Y');
+        $currentMonth = (int) date('m');
+        if ($expiryYear < $currentYear || ($expiryYear === $currentYear && $expiryMonth < $currentMonth)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error. La tarjeta ha expirado. Verifica la fecha de expiración.',
+            ], 422);
+        }
 
         if ($success) {
             $paymentId = 'MOCK-' . strtoupper(Str::random(16));
@@ -55,6 +60,7 @@ class PaymentController extends Controller
         }
     }
 
+    // Verificar estado de un pago procesado (simulado)
     public function verifyPayment(Request $request, $paymentId)
     {
         
@@ -73,9 +79,7 @@ class PaymentController extends Controller
         ]);
     }
 
-    /**
-     * Obtener métodos de pago disponibles (simulado)
-     */
+    // Obtener métodos de pago disponibles (información pública)
     public function getPaymentMethods()
     {
         return response()->json([

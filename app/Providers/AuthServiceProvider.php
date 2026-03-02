@@ -19,9 +19,10 @@ class AuthServiceProvider extends ServiceProvider
     /**
      * Register any authentication / authorization services.
      */
+    // Aquí se pueden registrar servicios relacionados con la autenticación y autorización, como gates o policies personalizados para controlar el acceso a diferentes partes de la aplicación según las reglas definidas.
     public function boot(): void
     {
-        $this->registerPolicies();
+        $this->registerPolicies(); // Registra las políticas de autorización definidas en la propiedad $policies para que puedan ser utilizadas en la aplicación
 
         //
     }

@@ -16,6 +16,7 @@ const Register = () => {
   const { register } = useAuth();
   const navigate = useNavigate();
 
+  // Función para manejar cambios en los campos del formulario de registro: actualiza el estado formData con los valores ingresados por el usuario
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -23,6 +24,7 @@ const Register = () => {
     });
   };
 
+  // Función para manejar el envío del formulario de registro: valida que las contraseñas coincidan, llama a la función register del contexto de autenticación, maneja el estado de carga y muestra errores si los hay
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');

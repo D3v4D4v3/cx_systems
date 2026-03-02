@@ -20,6 +20,7 @@ const ProductDetail = () => {
     fetchProduct();
   }, [id]);
 
+  // Función para cargar los detalles de un producto desde el backend: muestra un spinner de carga mientras se obtiene la información, y maneja errores mostrando una alerta y redirigiendo al listado de productos si no se pudo cargar el producto
   const fetchProduct = async () => {
     try {
       setLoading(true);
@@ -42,6 +43,7 @@ const ProductDetail = () => {
     return null;
   }
 
+  // Función para manejar la acción de agregar el producto al carrito: si el usuario no está autenticado, muestra una alerta y redirige al login; si el usuario está autenticado, llama a la función addToCart del contexto del carrito, muestra una alerta con el resultado, y si se agregó correctamente, redirige al carrito
   const handleAddToCart = async () => {
     if (!user) {
       alert('Debes iniciar sesión para agregar productos al carrito');

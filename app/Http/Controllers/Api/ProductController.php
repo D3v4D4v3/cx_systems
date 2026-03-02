@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
+    // Listar productos activos con filtros de búsqueda, categoría y ordenamiento
     public function index(Request $request): JsonResponse
     {
         $request->validate([
@@ -43,6 +44,7 @@ class ProductController extends Controller
         return response()->json($products);
     }
 
+    // Mostrar detalles de un producto específico (solo si está activo)
     public function show(Product $product): JsonResponse
     {
         if (! $product->is_active) {
@@ -54,6 +56,7 @@ class ProductController extends Controller
         ]);
     }
 
+    // Crear un nuevo producto (solo para vendedores)
     public function store(Request $request): JsonResponse
     {
         if (! $request->user()->isVendor()) {
@@ -72,6 +75,7 @@ class ProductController extends Controller
         $validated['vendor_id'] = $request->user()->id;
         $validated['slug']      = Str::slug($validated['name']);
 
+        // Manejo de imagen si se proporciona
         if ($request->hasFile('image')) {
             $validated['image'] = $this->storeProductImage($request);
         }
@@ -84,6 +88,7 @@ class ProductController extends Controller
         ], 201);
     }
 
+    // Actualizar un producto existente (solo para el vendedor propietario)
     public function update(Request $request, Product $product): JsonResponse
     {
         if (! $request->user()->isVendor() || $product->vendor_id !== $request->user()->id) {
@@ -117,6 +122,7 @@ class ProductController extends Controller
         ]);
     }
 
+    // Eliminar un producto (solo para el vendedor propietario)
     public function destroy(Request $request, Product $product): JsonResponse
     {
         if (! $request->user()->isVendor() || $product->vendor_id !== $request->user()->id) {
@@ -129,8 +135,9 @@ class ProductController extends Controller
         return response()->json(['message' => 'Producto eliminado exitosamente']);
     }
 
-    // ── Image helpers ────────────────────────────────────────────────────────
+    // Funciones auxiliares para manejo de imágenes
 
+    // Almacenar la imagen del producto y devolver la ruta relativa
     private function storeProductImage(Request $request): string
     {
         $image     = $request->file('image');
@@ -146,6 +153,7 @@ class ProductController extends Controller
         return 'images/products/' . $filename;
     }
 
+    // Eliminar la imagen del producto del sistema de archivos
     private function deleteProductImage(?string $imagePath): void
     {
         if (! $imagePath) {

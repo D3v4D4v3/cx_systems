@@ -7,10 +7,14 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Carbon; // Importar Carbon para manejar fechas de expiración de tokens
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
+    private const TOKEN_LIFETIME_MINUTES = 30;
+
+    // Registro de nuevos usuarios (clientes)
     public function register(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -30,15 +34,23 @@ class AuthController extends Controller
             'address'  => $validated['address'] ?? null,
         ]);
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        // NUEVO: Crear token de acceso con expiración corta para pruebas de seguridad
+        $tokenResult = $user->createToken(
+            'auth_token',
+            ['*'], // Permisos completos
+            now()->addMinutes(self::TOKEN_LIFETIME_MINUTES) // Expira en 30 minutos para pruebas de seguridad
+        );
 
         return response()->json([
             'message' => 'Usuario registrado exitosamente',
             'user'    => $user->load('role'),
-            'token'   => $token,
+            'token'   => $tokenResult->plainTextToken,
+            'token_expires_at' => Carbon::parse($tokenResult->accessToken->expires_at)->toIso8601String(),
+            'token_expires_in_seconds' => self::TOKEN_LIFETIME_MINUTES * 60,
         ], 201);
     }
 
+    // Inicio de sesión de usuarios
     public function login(Request $request): JsonResponse
     {
         $request->validate([
@@ -57,15 +69,22 @@ class AuthController extends Controller
         // Revocar tokens anteriores para evitar tokens huérfanos
         $user->tokens()->delete();
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $tokenResult = $user->createToken(
+            'auth_token',
+            ['*'],
+            now()->addMinutes(self::TOKEN_LIFETIME_MINUTES)
+        );
 
         return response()->json([
             'message' => 'Inicio de sesión exitoso',
             'user'    => $user->load('role'),
-            'token'   => $token,
+            'token'   => $tokenResult->plainTextToken,
+            'token_expires_at' => Carbon::parse($tokenResult->accessToken->expires_at)->toIso8601String(),
+            'token_expires_in_seconds' => self::TOKEN_LIFETIME_MINUTES * 60,
         ]);
     }
 
+    // Cierre de sesión (revoca el token actual)
     public function logout(Request $request): JsonResponse
     {
         $request->user()->currentAccessToken()->delete();
@@ -75,6 +94,7 @@ class AuthController extends Controller
         ]);
     }
 
+    // Obtener información del usuario autenticado
     public function me(Request $request): JsonResponse
     {
         return response()->json([
